@@ -30,7 +30,7 @@ namespace GameOfLife
         Graphics g; // для рисования клеточного поля
         static ushort lifeSize = 32; // кол-во клеток на поле
         static ushort pointSize; // размер одной клетки
-        Generation gen = new Generation(lifeSize); // дял реализации бизнес-логики
+        Generation gen = new Generation(lifeSize); // для реализации бизнес-логики
         SolidBrush blackBrush, greenBrush; // для закраски клеток
         Rectangle[,] Cells = new Rectangle[lifeSize, lifeSize]; // массив из прямоугольников для отрисовки поля
         Boolean isAlive = false; // для рисования только "живых" клеток
@@ -52,6 +52,17 @@ namespace GameOfLife
             t.SetToolTip(pictureBox_Step, "Перейти к следующему поколению");
             t.SetToolTip(pictureBox_Play, "Автоматическая генерация поколений");
             t.SetToolTip(pictureBox_Clear, "Очистить поле");
+        }
+
+        public void SetData(Generation gen1, ushort lifeSize1, ushort Speed)
+        {
+            gen = gen1;
+            lifeSize = lifeSize1;
+            timer1.Interval = Speed;
+            Cells = new Rectangle[lifeSize, lifeSize];
+            pointSize = (ushort)(pictureBox_GameField.Height / (lifeSize));
+            pictureBox_GameField_Paint(pictureBox_GameField, null);
+            PaintField();
         }
 
         // Кнопка "Play" которая активирует таймер
@@ -94,9 +105,6 @@ namespace GameOfLife
         // Кнопка Clear очищает булевский массив и поле
         private void pictureBox_Clear_Click(object sender, EventArgs e)
         {
-            //g = Graphics.FromHwnd(pictureBox_GameField.Handle);
-            //g.FillRectangle(blackBrush, 0, 0,
-            //    pictureBox_GameField.Width, pictureBox_GameField.Height);
             gen.Clear();
             PaintField();
         }
@@ -227,8 +235,23 @@ namespace GameOfLife
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
             filename = openFileDialog1.FileName;
+            // (извиняюсь за ужасный код!)
+            // здесь приходится сначала восстановить массив, чтобы узнать его размер
+            // и создать новый объект, во избежании ошибок
+            gen.RestoreFromFile(filename);
+            SetData(new Generation(gen.LifeSize), gen.LifeSize, (ushort)timer1.Interval);
+            // и снова восстановить...
             gen.RestoreFromFile(filename);
             PaintField();
+        }
+
+        private void pictureBox_Settings_Click(object sender, EventArgs e)
+        {
+            Form f = new FormSettings((ushort)timer1.Interval, lifeSize);
+            f.Owner = this;
+            f.Left = this.Left; // задаём открываемой форме позицию слева равную позиции текущей формы
+            f.Top = this.Top; // задаём открываемой форме позицию сверху равную позиции текущей формы
+            f.ShowDialog(); // отображаем Form2
         }
 
         // Рандомная генерация клеток и их отрисовка

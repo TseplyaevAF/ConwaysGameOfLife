@@ -9,7 +9,7 @@ using System.IO;
 namespace GameOfLife
 {
     // Класс Поколение
-    class Generation
+    public class Generation
     {
         Boolean[,] lifeGeneration; // текущее поколение
         Boolean[,] nextGeneration; // следующее поколение
@@ -23,6 +23,25 @@ namespace GameOfLife
             lifeSize = size;
             lifeGeneration = new Boolean[lifeSize, lifeSize];
             nextGeneration = new Boolean[lifeSize, lifeSize];
+        }
+
+        // Доступ к полям класса
+        public Boolean getNextGeneration(int i, int j)
+        {
+            return nextGeneration[i, j];
+        }
+
+        public Boolean getLifeGeneration(int i, int j)
+        {
+            return lifeGeneration[i, j];
+        }
+
+        public ushort LifeSize
+        {
+            get
+            {
+                return lifeSize;
+            }
         }
 
         /// <summary>
@@ -95,17 +114,6 @@ namespace GameOfLife
             return count;
         }
 
-        // Доступ к элементам массивов
-        public Boolean getNextGeneration(int i, int j)
-        {
-            return nextGeneration[i, j];
-        }
-
-        public Boolean getLifeGeneration(int i, int j)
-        {
-            return lifeGeneration[i, j];
-        }
-
         /// <summary>
         /// Изменение состояния у элемента массива
         /// </summary>
@@ -143,6 +151,7 @@ namespace GameOfLife
                 throw new Exception("Файл не существует");
             lifeGeneration = JsonConvert.DeserializeObject<Boolean[,]>(File.ReadAllText(filename));
             nextGeneration = JsonConvert.DeserializeObject<Boolean[,]>(File.ReadAllText(filename));
+            lifeSize = (ushort)lifeGeneration.GetLength(0);
         }
     }
 }

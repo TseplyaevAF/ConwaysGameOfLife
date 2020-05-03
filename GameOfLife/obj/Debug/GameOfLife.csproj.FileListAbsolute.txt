@@ -10,3 +10,4 @@ E:\прога\C#\GameOfLife\GameOfLife\obj\Debug\GameOfLife.pdb
 E:\прога\C#\GameOfLife\GameOfLife\bin\Debug\Newtonsoft.Json.dll
 E:\прога\C#\GameOfLife\GameOfLife\bin\Debug\Newtonsoft.Json.xml
 E:\прога\C#\GameOfLife\GameOfLife\obj\Debug\GameOfLife.csproj.CopyComplete
+E:\прога\C#\GameOfLife\GameOfLife\obj\Debug\GameOfLife.FormSettings.resources
