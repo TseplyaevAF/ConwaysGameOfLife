@@ -7,3 +7,6 @@ E:\прога\C#\GameOfLife\GameOfLife\obj\Debug\GameOfLife.Properties.Resources
 E:\прога\C#\GameOfLife\GameOfLife\obj\Debug\GameOfLife.csproj.GenerateResource.cache
 E:\прога\C#\GameOfLife\GameOfLife\obj\Debug\GameOfLife.exe
 E:\прога\C#\GameOfLife\GameOfLife\obj\Debug\GameOfLife.pdb
+E:\прога\C#\GameOfLife\GameOfLife\bin\Debug\Newtonsoft.Json.dll
+E:\прога\C#\GameOfLife\GameOfLife\bin\Debug\Newtonsoft.Json.xml
+E:\прога\C#\GameOfLife\GameOfLife\obj\Debug\GameOfLife.csproj.CopyComplete

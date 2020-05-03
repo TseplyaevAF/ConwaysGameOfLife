@@ -28,13 +28,14 @@ namespace GameOfLife
     public partial class Form1 : Form
     {
         Graphics g; // для рисования клеточного поля
-        static ushort lifeSize = 32; // кол-во клеток в поле
-        static ushort pointSize = 10; // размер одной клетки
+        static ushort lifeSize = 32; // кол-во клеток на поле
+        static ushort pointSize; // размер одной клетки
         Generation gen = new Generation(lifeSize); // дял реализации бизнес-логики
         SolidBrush blackBrush, greenBrush; // для закраски клеток
         Rectangle[,] Cells = new Rectangle[lifeSize, lifeSize]; // массив из прямоугольников для отрисовки поля
         Boolean isAlive = false; // для рисования только "живых" клеток
         Boolean isDead = false; // для рисования только "мертвых" клеток
+        string filename; // название файла для хранения массива
 
         public Form1()
         {
@@ -43,6 +44,7 @@ namespace GameOfLife
             pictureBox_GameField.Image = 
                 new Bitmap(pictureBox_GameField.Width, pictureBox_GameField.Height);
             g = Graphics.FromImage(pictureBox_GameField.Image);
+            pointSize = (ushort)(pictureBox_GameField.Height / (lifeSize));
             blackBrush = new SolidBrush(Color.Black);
             greenBrush = new SolidBrush(Color.Green);
             ToolTip t = new ToolTip();
@@ -68,9 +70,9 @@ namespace GameOfLife
             timer1.Tick += new EventHandler(timer1_Tick);
         }
 
-            /// <summary>
-            /// Отрисовать клеточное поле
-            /// </summary>
+        /// <summary>
+        /// Отрисовать клеточное поле
+        /// </summary>
         private void PaintField()
         {
             g = Graphics.FromHwnd(pictureBox_GameField.Handle);
@@ -92,10 +94,11 @@ namespace GameOfLife
         // Кнопка Clear очищает булевский массив и поле
         private void pictureBox_Clear_Click(object sender, EventArgs e)
         {
-            g = Graphics.FromHwnd(pictureBox_GameField.Handle);
-            g.FillRectangle(blackBrush, 0, 0,
-                pictureBox_GameField.Width, pictureBox_GameField.Height);
+            //g = Graphics.FromHwnd(pictureBox_GameField.Handle);
+            //g.FillRectangle(blackBrush, 0, 0,
+            //    pictureBox_GameField.Width, pictureBox_GameField.Height);
             gen.Clear();
+            PaintField();
         }
 
         // Кнопка Step отвечает за генерацию одного поколения и отрисовки его на поле
@@ -167,7 +170,7 @@ namespace GameOfLife
                                 if (!gen.getLifeGeneration(i, j))
                                 {
                                     // будем закрашивать зеленым "мертвые" клетки
-                                    gen.ChangeColorCell(i, j);
+                                    gen.ChangeColorCell(i, j);                           
                                     g.FillRectangle(greenBrush, Cells[i, j]);
                                 }
                             }
@@ -209,6 +212,23 @@ namespace GameOfLife
                     }
                 }
             }
+        }
+
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            filename = saveFileDialog1.FileName;
+            gen.SaveToFile(filename+".json");
+        }
+
+        private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            filename = openFileDialog1.FileName;
+            gen.RestoreFromFile(filename);
+            PaintField();
         }
 
         // Рандомная генерация клеток и их отрисовка

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace GameOfLife
 {
@@ -122,6 +124,25 @@ namespace GameOfLife
                     nextGeneration[i, j] = false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Сохранить массив в файл
+        /// </summary>
+        public void SaveToFile(string filename)
+        {
+            File.WriteAllText(filename, JsonConvert.SerializeObject(lifeGeneration));
+        }
+
+        /// <summary>
+        /// Восстановить массив из файла
+        /// </summary>
+        public void RestoreFromFile(string filename)
+        {
+            if (!System.IO.File.Exists(filename))
+                throw new Exception("Файл не существует");
+            lifeGeneration = JsonConvert.DeserializeObject<Boolean[,]>(File.ReadAllText(filename));
+            nextGeneration = JsonConvert.DeserializeObject<Boolean[,]>(File.ReadAllText(filename));
         }
     }
 }
