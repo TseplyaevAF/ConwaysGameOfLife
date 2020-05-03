@@ -117,7 +117,7 @@
             // 
             // pictureBox_GameField
             // 
-            this.pictureBox_GameField.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.pictureBox_GameField.BackColor = System.Drawing.Color.Black;
             this.pictureBox_GameField.Location = new System.Drawing.Point(12, 12);
             this.pictureBox_GameField.MaximumSize = new System.Drawing.Size(320, 320);
             this.pictureBox_GameField.MinimumSize = new System.Drawing.Size(320, 320);
@@ -126,7 +126,7 @@
             this.pictureBox_GameField.TabIndex = 0;
             this.pictureBox_GameField.TabStop = false;
             this.pictureBox_GameField.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_GameField_Paint);
-            this.pictureBox_GameField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_GameField_MouseClick);
+            this.pictureBox_GameField.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_GameField_MouseDown);
             this.pictureBox_GameField.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_GameField_MouseMove);
             // 
             // Form1
