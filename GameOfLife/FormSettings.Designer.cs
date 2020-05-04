@@ -41,7 +41,7 @@
             // 
             this.trackBar1.Location = new System.Drawing.Point(15, 52);
             this.trackBar1.Maximum = 1000;
-            this.trackBar1.Minimum = 1;
+            this.trackBar1.Minimum = 100;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(189, 45);
             this.trackBar1.TabIndex = 0;
@@ -55,9 +55,9 @@
             this.label_Speed.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label_Speed.Location = new System.Drawing.Point(12, 21);
             this.label_Speed.Name = "label_Speed";
-            this.label_Speed.Size = new System.Drawing.Size(192, 16);
+            this.label_Speed.Size = new System.Drawing.Size(216, 16);
             this.label_Speed.TabIndex = 1;
-            this.label_Speed.Text = "Скорость генерации: 100";
+            this.label_Speed.Text = "Скорость генерации: 100 ms";
             // 
             // label_Size
             // 

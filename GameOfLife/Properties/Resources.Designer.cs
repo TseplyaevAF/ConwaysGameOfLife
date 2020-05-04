@@ -73,26 +73,6 @@ namespace GameOfLife.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap clear {
-            get {
-                object obj = ResourceManager.GetObject("clear", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap fill {
-            get {
-                object obj = ResourceManager.GetObject("fill", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap filll {
             get {
                 object obj = ResourceManager.GetObject("filll", resourceCulture);
@@ -123,9 +103,9 @@ namespace GameOfLife.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap settings {
+        internal static System.Drawing.Bitmap settings1 {
             get {
-                object obj = ResourceManager.GetObject("settings", resourceCulture);
+                object obj = ResourceManager.GetObject("settings1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -136,6 +116,26 @@ namespace GameOfLife.Properties {
         internal static System.Drawing.Bitmap step {
             get {
                 object obj = ResourceManager.GetObject("step", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap не_сетка {
+            get {
+                object obj = ResourceManager.GetObject("не сетка", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap сетка {
+            get {
+                object obj = ResourceManager.GetObject("сетка", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

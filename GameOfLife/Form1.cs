@@ -29,13 +29,16 @@ namespace GameOfLife
     {
         Graphics g; // для рисования клеточного поля
         static ushort lifeSize = 32; // кол-во клеток на поле
-        static ushort pointSize; // размер одной клетки
+        static float pointSize; // размер одной клетки
         Generation gen = new Generation(lifeSize); // для реализации бизнес-логики
         SolidBrush blackBrush, greenBrush; // для закраски клеток
         Rectangle[,] Cells = new Rectangle[lifeSize, lifeSize]; // массив из прямоугольников для отрисовки поля
         Boolean isAlive = false; // для рисования только "живых" клеток
         Boolean isDead = false; // для рисования только "мертвых" клеток
         string filename; // название файла для хранения массива
+        Color myColor, gray;
+        Pen p;
+        Boolean isGrid = true; // показ сетки
 
         public Form1()
         {
@@ -44,7 +47,7 @@ namespace GameOfLife
             pictureBox_GameField.Image = 
                 new Bitmap(pictureBox_GameField.Width, pictureBox_GameField.Height);
             g = Graphics.FromImage(pictureBox_GameField.Image);
-            pointSize = (ushort)(pictureBox_GameField.Height / (lifeSize));
+            pointSize = (pictureBox_GameField.Height / (lifeSize));
             blackBrush = new SolidBrush(Color.Black);
             greenBrush = new SolidBrush(Color.Green);
             toolTip1.SetToolTip(pictureBox_Fill, "Сгенировать поколение");
@@ -52,8 +55,14 @@ namespace GameOfLife
             toolTip1.SetToolTip(pictureBox_Play, "Запустить генерацию поколений");
             toolTip1.SetToolTip(pictureBox_Clear, "Очистить поле");
             toolTip1.SetToolTip(pictureBox_Settings, "Настройки игры");
+            toolTip1.SetToolTip(pictureBox_Grid, "Скрыть сетку");
+            toolTip1.SetToolTip(pictureBox_NotGrid, "Показать сетку");
             openFileDialog1.Filter = "Life files(*.life)|*.life";
             saveFileDialog1.Filter = "Life files(*.life)|*.life";
+            gray = Color.FromArgb(126, 145, 121);
+            myColor = Color.FromArgb(45, gray);
+            p = new Pen(myColor);
+            PaintGrid();
         }
 
         // Задать новые данные и отрисовать по ним новое поле
@@ -63,7 +72,7 @@ namespace GameOfLife
             lifeSize = lifeSize1;
             timer1.Interval = Speed;
             Cells = new Rectangle[lifeSize, lifeSize];
-            pointSize = (ushort)(pictureBox_GameField.Height / (lifeSize));
+            pointSize = ((float)pictureBox_GameField.Height / (float)(lifeSize));
             pictureBox_GameField_Paint(pictureBox_GameField, null);
             PaintField();
         }
@@ -96,11 +105,24 @@ namespace GameOfLife
             {
                 for (int j = 0; j < lifeSize; j++)
                 {
-                    if (gen.getNextGeneration(i, j))
+                    if (gen.getLifeGeneration(i, j))
                     {
                         g.FillRectangle(greenBrush, Cells[i, j]);
                     }
                 }
+            }
+            if ((!timer1.Enabled) && (isGrid))
+                PaintGrid();
+        }
+        private void PaintGrid()
+        {
+            
+            for (int i = 0; i < lifeSize; i++)
+            {
+                // Vertical 
+                g.DrawLine(p, i * pointSize, 0, i * pointSize, lifeSize * pointSize);
+                // Horizontal 
+                g.DrawLine(p, 0, i * pointSize, lifeSize * pointSize, i * pointSize);
             }
         }
 
@@ -138,14 +160,13 @@ namespace GameOfLife
         /// </summary>
         private void pictureBox_GameField_Paint(object sender, PaintEventArgs e)
         {
-            Pen p = new Pen(Color.Black);
             for (int i = 0; i < lifeSize; i++)
             {
                 for (int j = 0; j < lifeSize; j++)
                 {
                     Cells[i, j] = new Rectangle(
-                        i * pictureBox_GameField.Width / (lifeSize),
-                        j * pictureBox_GameField.Height / (lifeSize), pointSize-1, pointSize-1);
+                        i * pictureBox_GameField.Width / (lifeSize)+1,
+                        j * pictureBox_GameField.Height / (lifeSize)+1, (int)pointSize-1, (int)pointSize-1);
                     g.FillRectangle(blackBrush, Cells[i, j]);
                 }
             }
@@ -252,12 +273,31 @@ namespace GameOfLife
 
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            pictureBox_GameField.Paint += new PaintEventHandler(pictureBox_GameField_Paint);
+        }
+
+        private void pictureBox_NotGrid_Click(object sender, EventArgs e)
+        {
+            isGrid = true;
+            pictureBox_NotGrid.Visible = false;
+            PaintField();
+        }
+
+        private void pictureBox_Grid_Click(object sender, EventArgs e)
+        {
+            isGrid = false;
+            pictureBox_NotGrid.Visible = true;
+            PaintField();
+        }
+
         private void pictureBox_Settings_Click(object sender, EventArgs e)
         {
             Form f = new FormSettings((ushort)timer1.Interval, lifeSize);
             f.Owner = this;
-            f.Left = this.Left; // задаём открываемой форме позицию слева равную позиции текущей формы
-            f.Top = this.Top; // задаём открываемой форме позицию сверху равную позиции текущей формы
+            f.Left = this.Left + this.Left/10; // задаём открываемой форме позицию слева равную позиции текущей формы
+            f.Top = this.Top + this.Top/2; // задаём открываемой форме позицию сверху равную позиции текущей формы
             f.ShowDialog(); // отображаем Form2
         }
 

@@ -18,14 +18,14 @@ namespace GameOfLife
             InitializeComponent();
             trackBar1.Scroll += trackBar1_Scroll;
             speedSize = speedSize1;
-            label_Speed.Text = String.Format("Скорость генерации: {0}", speedSize);
+            label_Speed.Text = String.Format("Скорость генерации: {0} ms", speedSize);
             numericUpDown1.Value = lifeSize;
             trackBar1.Value = speedSize1;
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            label_Speed.Text = String.Format("Скорость генерации: {0}", trackBar1.Value);
+            label_Speed.Text = String.Format("Скорость генерации: {0} ms", trackBar1.Value);
             speedSize = (ushort)trackBar1.Value;
         }
 
