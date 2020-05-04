@@ -20,6 +20,7 @@ namespace GameOfLife
             speedSize = speedSize1;
             label_Speed.Text = String.Format("Скорость генерации: {0}", speedSize);
             numericUpDown1.Value = lifeSize;
+            trackBar1.Value = speedSize1;
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -33,6 +34,7 @@ namespace GameOfLife
             Form1 main = this.Owner as Form1;
             if (main != null)
             {
+                // зададим новые данные, по которым будет новая отрисовка
                 main.SetData(new Generation((ushort)numericUpDown1.Value), (ushort)numericUpDown1.Value,
                     speedSize);
                 this.Close();

@@ -149,8 +149,14 @@ namespace GameOfLife
         {
             if (!System.IO.File.Exists(filename))
                 throw new Exception("Файл не существует");
-            lifeGeneration = JsonConvert.DeserializeObject<Boolean[,]>(File.ReadAllText(filename));
-            nextGeneration = JsonConvert.DeserializeObject<Boolean[,]>(File.ReadAllText(filename));
+            try
+            {
+                lifeGeneration = JsonConvert.DeserializeObject<Boolean[,]>(File.ReadAllText(filename));
+                nextGeneration = JsonConvert.DeserializeObject<Boolean[,]>(File.ReadAllText(filename));
+            } catch
+            {
+                throw new Exception("Ошибка при открытии файла");
+            }
             lifeSize = (ushort)lifeGeneration.GetLength(0);
         }
     }

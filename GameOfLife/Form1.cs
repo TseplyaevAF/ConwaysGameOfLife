@@ -47,13 +47,16 @@ namespace GameOfLife
             pointSize = (ushort)(pictureBox_GameField.Height / (lifeSize));
             blackBrush = new SolidBrush(Color.Black);
             greenBrush = new SolidBrush(Color.Green);
-            ToolTip t = new ToolTip();
-            t.SetToolTip(pictureBox_Fill, "Сгенировать поколение случайным образом");
-            t.SetToolTip(pictureBox_Step, "Перейти к следующему поколению");
-            t.SetToolTip(pictureBox_Play, "Автоматическая генерация поколений");
-            t.SetToolTip(pictureBox_Clear, "Очистить поле");
+            toolTip1.SetToolTip(pictureBox_Fill, "Сгенировать поколение");
+            toolTip1.SetToolTip(pictureBox_Step, "Перейти к следующему поколению");
+            toolTip1.SetToolTip(pictureBox_Play, "Запустить генерацию поколений");
+            toolTip1.SetToolTip(pictureBox_Clear, "Очистить поле");
+            toolTip1.SetToolTip(pictureBox_Settings, "Настройки игры");
+            openFileDialog1.Filter = "Life files(*.life)|*.life";
+            saveFileDialog1.Filter = "Life files(*.life)|*.life";
         }
 
+        // Задать новые данные и отрисовать по ним новое поле
         public void SetData(Generation gen1, ushort lifeSize1, ushort Speed)
         {
             gen = gen1;
@@ -95,8 +98,7 @@ namespace GameOfLife
                 {
                     if (gen.getNextGeneration(i, j))
                     {
-                        g.FillRectangle(greenBrush, i * pointSize, j * pointSize,
-                            pointSize-1, pointSize-1);
+                        g.FillRectangle(greenBrush, Cells[i, j]);
                     }
                 }
             }
@@ -227,7 +229,7 @@ namespace GameOfLife
             if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
             filename = saveFileDialog1.FileName;
-            gen.SaveToFile(filename+".json");
+            gen.SaveToFile(filename);
         }
 
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -235,14 +237,19 @@ namespace GameOfLife
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
             filename = openFileDialog1.FileName;
-            // (извиняюсь за ужасный код!)
-            // здесь приходится сначала восстановить массив, чтобы узнать его размер
-            // и создать новый объект, во избежании ошибок
-            gen.RestoreFromFile(filename);
-            SetData(new Generation(gen.LifeSize), gen.LifeSize, (ushort)timer1.Interval);
-            // и снова восстановить...
-            gen.RestoreFromFile(filename);
-            PaintField();
+            try
+            {
+                // сначала нужно восстановить массив
+                gen.RestoreFromFile(filename);
+                // затем задать новые данные и отрисовать
+                SetData(gen, gen.LifeSize, (ushort)timer1.Interval);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Упс...", MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
+            }
+
         }
 
         private void pictureBox_Settings_Click(object sender, EventArgs e)
