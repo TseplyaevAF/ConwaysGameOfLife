@@ -111,9 +111,12 @@ namespace GameOfLife
                     }
                 }
             }
+            // при запущенном таймере убрать отрисовку сетки, чтоб избежать мигания
             if ((!timer1.Enabled) && (isGrid))
                 PaintGrid();
         }
+
+        // Отрисовка сетки
         private void PaintGrid()
         {
             
@@ -152,6 +155,8 @@ namespace GameOfLife
             pictureBox_Pause.Visible = false;
             timer1.Enabled = false;
             timer1.Stop();
+            if (isGrid)
+                PaintGrid();
         }
 
         /// <summary>
